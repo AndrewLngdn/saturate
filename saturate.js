@@ -1,5 +1,8 @@
 var Saturate = {
-	degreeStep: 2,
+	options: {
+		degreeStep: 0.1,
+		alternateBlack: true
+	},
 	run: function() {
 		var filters = "";
 
@@ -11,7 +14,7 @@ var Saturate = {
 				$('body').append(html);
 			}
 
-			setInterval(twistBoxes,1000);
+			setInterval(twistBoxes,100);
 		}
 
 		var degrees = 0;
@@ -22,17 +25,23 @@ var Saturate = {
 			var box2 = $(".box2");
 			var box3 = $(".box3");
 			var box4 = $(".box4");
+			var colorR, colorG, colorB;
 
 			j++;
 
 			for (var i = 0; i < box2.length; i++){
-				degrees += Saturate.degreeStep;
+				degrees += Saturate.options.degreeStep;
 
 				var degreeRotate = (i+1)*degrees/5
 
-				var colorR = 100;
-				var colorG = 30;
-				var colorB = degrees/2%255 + i/2;
+				if (Saturate.options.alternateBlack && i%2 == 0){
+						colorR = colorG = colorB = 0;
+				} else {
+					colorR = 100;
+					colorG = 30;
+					colorB = Math.floor(degrees/2)%255;
+				}
+
 
 				var colorA = 0.2;
 
@@ -43,14 +52,14 @@ var Saturate = {
 				var boxTransform = "-webkit-transform: rotate(" + degreeRotate + "deg); "
 				var boxWidth = "width: " + Math.floor(600*(Math.sin((degrees))+1))%255 + "px; "
 				var boxHeight = "height: " + Math.floor(600*(Math.sin((degrees))+1))%255 + "px; "
-				console.log(boxWidth)
+				// console.log(boxWidth)
 				var colorTransform = function(r, g, b, a) {
 					return "background-color: rgba(" + r + "," + g + "," + b + ", " + a + ");  -webkit-filter: " + filters + "; "
 				}
 					
 				box1[i].setAttribute("style", boxTransform + colorTransform(colorR, colorG, colorB, colorA));
 				box2[i].setAttribute("style", boxTransform);
-				box3[i].setAttribute("style", colorTransform(colorR, colorG, colorB, colorA));
+				box3[i].setAttribute("style", colorTransform(colorR, colorG, colorB, colorA) + boxTransform);
 				box4[i].setAttribute("style", boxTransform);
 			}
 		}
@@ -65,6 +74,18 @@ var Saturate = {
 		$('.desaturate').click(function(){
 			filters = "grayscale(100%)";
 		});
+
+		$('.speed').slider({
+			value: Saturate.degreeStep,
+			step: 0.01,
+			max: 3, 
+			min: 0.001, 
+			slide: function(event, ui){
+				console.log("change");
+				Saturate.options.degreeStep = ui.value;
+			}});
+			
+
 	}
 }
 

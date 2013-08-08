@@ -14,7 +14,7 @@ body{
 	top: 25%;
 	left: 30%;
 	-webkit-transform-origin:50% 50%;
-	-webkit-transition: 1s all linear ;
+	-webkit-transition: 0.1s all linear ;
 	/*-webkit-transition: 1s background-color  linear;*/
 }
 
@@ -28,7 +28,7 @@ body{
 	left: 50px;
 	-webkit-transform-origin:50% 50%;
 
-	-webkit-transition:1s all linear;
+	-webkit-transition:0.1s all linear;
 	/*-webkit-transition: 1s background-color linear;*/
 }
 
@@ -42,7 +42,7 @@ body{
 	left: 50px;
 	-webkit-transform-origin:50% 50%;
 
-	-webkit-transition:3s all linear;
+	-webkit-transition:0.1s all linear;
 	/*-webkit-transition: 1s background-color linear;*/
 }
 
@@ -56,6 +56,6 @@ body{
 	left: 25px;
 	-webkit-transform-origin:50% 50%;
 
-	-webkit-transition:3s all linear;
+	-webkit-transition:0.25s all linear;
 	/*-webkit-transition: 1s background-color linear;*/
 }
