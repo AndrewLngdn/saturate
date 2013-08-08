@@ -3,6 +3,12 @@ body{
 	background-color:#AFAFAF;
 	/*-webkit-filter:saturate(3);*/
 	font-family: sans-serif;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: moz-none;
+	-ms-user-select: none;
+	user-select: none;
 	-webkit-transition: 1s all linear ;
 }
 
@@ -15,22 +21,28 @@ body{
 
 .option-box{
 	font-size: 0.8em;
-	/*padding: 10px;*/
+	padding-left: 10px;
 	width: auto;
 	height: 30px;
 	background-color: rgb(207, 207, 207);
 	border-bottom:1px solid #aaa;
 }
 
+.option-text{
+	display:inline-block;
+	padding-top:7px;
+}
+
 .plus, .minus{
+	border-left:1px solid #aaa;
 	overflow:hidden;
-	padding-left: 10px;
+	padding: 3px 7px 0px 11px;
+	padding-top: 3px;
 	font-size:1.5em;
 	display:inline-block;
 	float:right;
-	width: 30px;
-	height: 30px;
-	background-color: white;
+	width: 15px;
+	height: 27px;
 }
 
 .saturate{

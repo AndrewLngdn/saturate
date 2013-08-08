@@ -3,7 +3,7 @@ var Saturate = {
 		degreeStep: 0.1,
 		alternateBlack: true,
 		filters: {
-			saturate: 0,
+			saturate: 1,
 			grayscale: "0%"
 		}
 	},
@@ -79,7 +79,10 @@ var Saturate = {
 				amount++;
 			} else if (target == "-") {
 				amount = Math.max(amount-1, 0);
+			} else {
+
 			}
+
 			Saturate.options.filters.saturate = amount;
 
 			$('body').addClass('body-saturate');
@@ -90,8 +93,6 @@ var Saturate = {
 		$('.desaturate').click(function(){
 			var percentage = Saturate.options.filters.grayscale = "100%";
 			$('body').addClass('grayscale');
-			// $('.grayscale').css("-webkit-filter", "grayscale(" + percentage + ");");
-
 		});
 
 		$('.speed').slider({
