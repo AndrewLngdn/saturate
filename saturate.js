@@ -1,7 +1,11 @@
 var Saturate = {
 	options: {
 		degreeStep: 0.1,
-		alternateBlack: true
+		alternateBlack: true,
+		filters: {
+			saturate: 0,
+			grayscale: "0%"
+		}
 	},
 	run: function() {
 		var filters = "";
@@ -54,7 +58,7 @@ var Saturate = {
 				var boxHeight = "height: " + Math.floor(600*(Math.sin((degrees))+1))%255 + "px; "
 				// console.log(boxWidth)
 				var colorTransform = function(r, g, b, a) {
-					return "background-color: rgba(" + r + "," + g + "," + b + ", " + a + ");  -webkit-filter: " + filters + "; "
+					return "background-color: rgba(" + r + "," + g + "," + b + ", " + a + ");"
 				}
 					
 				box1[i].setAttribute("style", boxTransform + colorTransform(colorR, colorG, colorB, colorA));
@@ -67,12 +71,27 @@ var Saturate = {
 		twistBoxes();
 		addBoxes(10);
 
-		$('.saturate').click(function(){
-			filters = "saturate(3)";
+		$('.saturate').click(function(e){
+			var amount = Saturate.options.filters.saturate;
+			var target = $(e.target).text()
+
+			if (target == "+"){
+				amount++;
+			} else if (target == "-") {
+				amount = Math.max(amount-1, 0);
+			}
+			Saturate.options.filters.saturate = amount;
+
+			$('body').addClass('body-saturate');
+			$('.body-saturate').css("-webkit-filter", "saturate(" + amount + ")");
+			$('.saturate-amount').text(amount);
 		});
 
 		$('.desaturate').click(function(){
-			filters = "grayscale(100%)";
+			var percentage = Saturate.options.filters.grayscale = "100%";
+			$('body').addClass('grayscale');
+			// $('.grayscale').css("-webkit-filter", "grayscale(" + percentage + ");");
+
 		});
 
 		$('.speed').slider({

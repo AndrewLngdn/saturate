@@ -1,7 +1,7 @@
 body{
 	margin: 0;
 	background-color:#AFAFAF;
-	-webkit-filter:saturate(3);
+	/*-webkit-filter:saturate(3);*/
 	font-family: sans-serif;
 	-webkit-transition: 1s all linear ;
 }
@@ -15,14 +15,29 @@ body{
 
 .option-box{
 	font-size: 0.8em;
-	padding: 10px;
+	/*padding: 10px;*/
 	width: auto;
+	height: 30px;
 	background-color: rgb(207, 207, 207);
 	border-bottom:1px solid #aaa;
 }
 
+.plus, .minus{
+	overflow:hidden;
+	padding-left: 10px;
+	font-size:1.5em;
+	display:inline-block;
+	float:right;
+	width: 30px;
+	height: 30px;
+	background-color: white;
+}
+
 .saturate{
 
+}
+.grayscale{
+	-webkit-filter: grayscale(100%);
 }
 
 .slider-box{
