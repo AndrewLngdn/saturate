@@ -4,7 +4,7 @@ var Saturate = {
 		alternateBlack: true,
 		filters: {
 			saturate: 1,
-			grayscale: "0%"
+			grayscale: 0
 		}
 	},
 	run: function() {
@@ -49,14 +49,9 @@ var Saturate = {
 
 				var colorA = 0.2;
 
-// "background-color: rgba(" + 100	 + "," + 30 + ","
-				// + degrees/2%255 + ", 0."+ (degrees*i/5)%20 +")");
-				// console.log("color r: " + colorR + " color g: " + colorG + " color b: " + colorB);
-
-				var boxTransform = "-webkit-transform: rotate(" + degreeRotate + "deg); "
+				var boxTransform = "-webkit-transform: rotate(" + degreeRotate + "deg);"
 				var boxWidth = "width: " + Math.floor(600*(Math.sin((degrees))+1))%255 + "px; "
 				var boxHeight = "height: " + Math.floor(600*(Math.sin((degrees))+1))%255 + "px; "
-				// console.log(boxWidth)
 				var colorTransform = function(r, g, b, a) {
 					return "background-color: rgba(" + r + "," + g + "," + b + ", " + a + ");"
 				}
@@ -71,35 +66,53 @@ var Saturate = {
 		twistBoxes();
 		addBoxes(10);
 
-		$('.saturate').click(function(e){
-			var amount = Saturate.options.filters.saturate;
-			var target = $(e.target).text()
-
-			if (target == "+"){
-				amount++;
-			} else if (target == "-") {
-				amount = Math.max(amount-1, 0);
-			} else {
-
+		var calculateAmount = function(filter, direction){
+			var amount = Saturate.options.filters[filter];
+			if (filter == "grayscale"){
+				console.log(amount);
+				increment = 0.2;
+			} else if (filter == "saturate"){
+				increment = 1;
 			}
 
-			Saturate.options.filters.saturate = amount;
+			if (direction == "+"){
+				amount += increment;				
+			} else if (direction == "-") {
+				amount = Math.max(amount-increment, 0);
+			}
 
-			$('body').addClass('body-saturate');
-			$('.body-saturate').css("-webkit-filter", "saturate(" + amount + ")");
-			$('.saturate-amount').text(amount);
+			if (filter == "grayscale"){
+				amount = Math.min(amount,1);
+			}
+
+			Saturate.options.filters[filter] = amount;
+
+			return amount;
+		}
+
+		var updateFilter = function(filter, target){
+			var direction = $(target).text()
+			var amount = calculateAmount(filter, direction);
+
+			$('body').addClass('body-' + filter);
+			$('.body-' + filter).css("-webkit-filter", filter + "(" + amount + ")");
+			$('.' + filter + '-amount').text(amount.toFixed(2));
+		}
+
+		$('.saturate').click(function(e){
+			updateFilter('saturate', e.target);
 		});
 
-		$('.desaturate').click(function(){
-			var percentage = Saturate.options.filters.grayscale = "100%";
-			$('body').addClass('grayscale');
+		$('.grayscale').click(function(e){
+			updateFilter('grayscale', e.target);
 		});
+
 
 		$('.speed').slider({
 			value: Saturate.degreeStep,
 			step: 0.01,
 			max: 1, 
-			min: 0.001, 
+			min: -1, 
 			slide: function(event, ui){
 				console.log("change");
 				Saturate.options.degreeStep = ui.value;

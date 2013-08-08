@@ -48,8 +48,8 @@ body{
 .saturate{
 
 }
+
 .grayscale{
-	-webkit-filter: grayscale(100%);
 }
 
 .slider-box{
