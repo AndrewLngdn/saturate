@@ -1,6 +1,7 @@
 var Saturate = {
 	options: {
-		degreeStep: 0.1,
+		boxCount: 10,
+		degreeStep: 1.0,
 		alternateBlack: true,
 		filters: {
 			saturate: 1,
@@ -46,7 +47,7 @@ var Saturate = {
 			for (var i = 0; i < box2.length; i++){
 				degrees += Saturate.options.degreeStep;
 
-				var degreeRotate = (i+1)*degrees/5
+				var degreeRotate = (i+1)*degrees/(5*Saturate.options.boxCount);
 
 				if (Saturate.options.alternateBlack && i%2 == 0){
 					colorR = colorG = colorB = 0;
@@ -83,7 +84,6 @@ var Saturate = {
 		var calculateAmount = function(filter, direction){
 			var amount = Saturate.options.filters[filter];
 			if (filter == "grayscale"){
-				console.log(amount);
 				increment = 0.2;
 			} else if (filter == "saturate"){
 				increment = 1;
@@ -129,10 +129,7 @@ var Saturate = {
 
 			$this.toggleClass('selected');
 			if ($this.hasClass('selected')){
-				console.log(layer);
 				Saturate.options.opacity[layer] = 0.2;
-				console.log(Saturate.options.opacity[layer]);
-
 			} else {
 				Saturate.options.opacity[layer] = 0.0;
 			}
@@ -141,10 +138,9 @@ var Saturate = {
 		$('.speed').slider({
 			value: Saturate.degreeStep,
 			step: 0.01,
-			max: 1, 
-			min: -1, 
+			max: 10, 
+			min: -10, 
 			slide: function(event, ui){
-				console.log("change");
 				Saturate.options.degreeStep = ui.value;
 			}});
 			
