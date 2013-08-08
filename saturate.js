@@ -35,7 +35,7 @@ var Saturate = {
 				var degreeRotate = (i+1)*degrees/5
 
 				if (Saturate.options.alternateBlack && i%2 == 0){
-						colorR = colorG = colorB = 0;
+					colorR = colorG = colorB = 0;
 				} else {
 					colorR = 100;
 					colorG = 30;
@@ -78,7 +78,7 @@ var Saturate = {
 		$('.speed').slider({
 			value: Saturate.degreeStep,
 			step: 0.01,
-			max: 3, 
+			max: 1, 
 			min: 0.001, 
 			slide: function(event, ui){
 				console.log("change");
