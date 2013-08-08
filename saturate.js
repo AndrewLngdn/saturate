@@ -5,6 +5,12 @@ var Saturate = {
 		filters: {
 			saturate: 1,
 			grayscale: 0
+		},
+		opacity: {
+			one: 0.2,
+			two: 0.2,
+			three: 0.2,
+			four: 0.2
 		}
 	},
 	run: function() {
@@ -13,22 +19,26 @@ var Saturate = {
 		function addBoxes(number){
 			for (var i = 0; i < number; i++){
 				var html = "";
-				html += "<div class='box1'>" + 
-				"<div class='box2'><div class='box3'><div class='box4'></div></div></div></div>";
+				html += "<div class='one'>";
+				html +=  	"<div class='two'>";
+				html += 		"<div class='three'>";
+				html += 			"<div class='four'></div>";
+				html += "</div></div></div>";
+				
 				$('body').append(html);
 			}
 
-			setInterval(twistBoxes,100);
+			setInterval(transformBoxes, 100);
 		}
 
 		var degrees = 0;
 		var j = 0;
 
-		function twistBoxes(){
-			var box1 = $(".box1");
-			var box2 = $(".box2");
-			var box3 = $(".box3");
-			var box4 = $(".box4");
+		function transformBoxes(){
+			var box1 = $(".one");
+			var box2 = $(".two");
+			var box3 = $(".three");
+			var box4 = $(".four");
 			var colorR, colorG, colorB;
 
 			j++;
@@ -55,15 +65,19 @@ var Saturate = {
 				var colorTransform = function(r, g, b, a) {
 					return "background-color: rgba(" + r + "," + g + "," + b + ", " + a + ");"
 				}
+
+				var opacityOne = Saturate.options.opacity.one;
+				var opacityTwo = Saturate.options.opacity.two;
+				var opacityThree = Saturate.options.opacity.three;
+				var opacityFour = Saturate.options.opacity.four;
 					
-				box1[i].setAttribute("style", boxTransform + colorTransform(colorR, colorG, colorB, colorA));
-				box2[i].setAttribute("style", boxTransform);
-				box3[i].setAttribute("style", colorTransform(colorR, colorG, colorB, colorA) + boxTransform);
-				box4[i].setAttribute("style", boxTransform);
+				box1[i].setAttribute("style", boxTransform + colorTransform(colorR, colorG, colorB, opacityOne));
+				box2[i].setAttribute("style", boxTransform + colorTransform(0, 0, 0, opacityTwo));
+				box3[i].setAttribute("style", boxTransform + colorTransform(colorR, colorG, colorB, opacityThree));
+				box4[i].setAttribute("style", boxTransform + colorTransform(0, 0, 0, opacityFour));
 			}
 		}
 
-		twistBoxes();
 		addBoxes(10);
 
 		var calculateAmount = function(filter, direction){
@@ -107,6 +121,22 @@ var Saturate = {
 			updateFilter('grayscale', e.target);
 		});
 
+		$('.layer-one, .layer-two, .layer-three, .layer-four').addClass('selected');
+
+		$('.layer-one, .layer-two, .layer-three, .layer-four').click(function(e){
+			var $this = $(this);
+			var layer = $(this).attr('data-layer');
+
+			$this.toggleClass('selected');
+			if ($this.hasClass('selected')){
+				console.log(layer);
+				Saturate.options.opacity[layer] = 0.2;
+				console.log(Saturate.options.opacity[layer]);
+
+			} else {
+				Saturate.options.opacity[layer] = 0.0;
+			}
+		});
 
 		$('.speed').slider({
 			value: Saturate.degreeStep,
