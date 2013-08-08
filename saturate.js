@@ -14,11 +14,13 @@ var Saturate = {
 			four: 0.2
 		}
 	},
-	run: function() {
-		var filters = "";
 
-		function addBoxes(number){
-			for (var i = 0; i < number; i++){
+	init: function(){
+
+	},
+
+	addBoxes: function(number){
+		for (var i = 0; i < number; i++){
 				var html = "";
 				html += "<div class='one'>";
 				html +=  	"<div class='two'>";
@@ -29,8 +31,11 @@ var Saturate = {
 				$('body').append(html);
 			}
 
-			setInterval(transformBoxes, 100);
-		}
+	},
+	run: function() {
+		Saturate.addBoxes(10);
+
+		setInterval(transformBoxes, 100);
 
 		var degrees = 0;
 		var j = 0;
@@ -57,9 +62,6 @@ var Saturate = {
 					colorB = Math.floor(degrees/2)%255;
 				}
 
-
-				var colorA = 0.2;
-
 				var boxTransform = "-webkit-transform: rotate(" + degreeRotate + "deg);"
 				var boxWidth = "width: " + Math.floor(600*(Math.sin((degrees))+1))%255 + "px; "
 				var boxHeight = "height: " + Math.floor(600*(Math.sin((degrees))+1))%255 + "px; "
@@ -79,7 +81,6 @@ var Saturate = {
 			}
 		}
 
-		addBoxes(10);
 
 		var calculateAmount = function(filter, direction){
 			var amount = Saturate.options.filters[filter];
@@ -130,6 +131,7 @@ var Saturate = {
 			$this.toggleClass('selected');
 			if ($this.hasClass('selected')){
 				Saturate.options.opacity[layer] = 0.2;
+
 			} else {
 				Saturate.options.opacity[layer] = 0.0;
 			}
